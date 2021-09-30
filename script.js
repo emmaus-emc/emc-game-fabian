@@ -16,6 +16,12 @@ var spelStatus = SPELEN;
 
 var spelerX = 640; // x-positie van speler
 var spelerY = 600; // y-positie van speler
+var spelerXSnelheid = 4; // x-snelheid van speler
+
+var impX = 400; // x-positie van vijand Imp
+var impY = 120; // y-positie van vijand Imp
+var impXSnelheid = 1; // x-snelheid van vijand Imp
+var impYSnelheid = 2; // y-snelheid van vijand Imp
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -26,11 +32,27 @@ var spelerY = 600; // y-positie van speler
  */
 var beweegAlles = function () {
   // vijand
+    // Imp
+    impY = impY + impYSnelheid;
+
+    if(impX < spelerX) {
+      impX = impX + impXSnelheid;
+    };
+
+    if(impX > spelerX) {
+      impX = impX - impXSnelheid;
+    };
 
   // kogel
 
   // speler
+  if(keyIsDown(37)) {
+    spelerX = spelerX - spelerXSnelheid;
+  };
 
+  if(keyIsDown(39)) {
+    spelerX = spelerX + spelerXSnelheid;
+  };
 };
 
 /**
@@ -50,8 +72,12 @@ var verwerkBotsing = function () {
  */
 var tekenAlles = function () {
   // achtergrond
+  background(128, 64, 32);
 
   // vijand
+    // imp
+    fill(255, 8, 8);
+    ellipse(impX, impY, 50, 50);
 
   // kogel
 
@@ -85,7 +111,7 @@ function setup() {
   createCanvas(1280, 720);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background(64, 64, 64);
+  background('blue');
 }
 
 /**
