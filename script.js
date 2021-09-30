@@ -14,7 +14,7 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
-var spelerX = 600; // x-positie van speler
+var spelerX = 640; // x-positie van speler
 var spelerY = 600; // y-positie van speler
 
 /* ********************************************* */
@@ -56,10 +56,8 @@ var tekenAlles = function () {
   // kogel
 
   // speler
-  fill("white");
-  rect(spelerX - 25, spelerY - 25, 50, 50);
-  fill("black");
-  ellipse(spelerX, spelerY, 10, 10);
+  fill(8, 128, 255);
+  ellipse(spelerX, spelerY, 50, 50);
 
   // punten en health
 
@@ -87,7 +85,7 @@ function setup() {
   createCanvas(1280, 720);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('blue');
+  background(64, 64, 64);
 }
 
 /**
