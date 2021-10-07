@@ -14,15 +14,21 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
+// keycodes
+const ARROW_LEFT = 37;
+const ARROW_UP = 38;
+const ARROW_RIGHT = 39;
+const ARROW_DOWN = 40;
+
 var spelerX = 640; // x-positie van speler
-var spelerY = 600; // y-positie van speler
-var spelerXSnelheid = 4; // x-snelheid van speler
-var spelerYSnelheid = 4; // y-snelhied van speler
+var spelerY = 560; // y-positie van speler
+var spelerXSnelheid = 6; // x-snelheid van speler
+var spelerYSnelheid = 6; // y-snelhied van speler
 
 var impX = 400; // x-positie van vijand Imp
-var impY = 120; // y-positie van vijand Imp
-const impXSnelheid = 1; // x-snelheid van vijand Imp
-const impYSnelheid = 2; // y-snelheid van vijand Imp
+var impY = 0; // y-positie van vijand Imp
+const impXSnelheid = 2; // x-snelheid van vijand Imp
+const impYSnelheid = 3; // y-snelheid van vijand Imp
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -47,22 +53,40 @@ var beweegAlles = function () {
   // kogel
 
   // speler
-  if(keyIsDown(37)) {
-    spelerX = spelerX - spelerXSnelheid;
-  };
 
-  if(keyIsDown(38)) {
-    spelerY = spelerY - spelerYSnelheid;
-  };
+    // normale beweging
+    if(keyIsDown(ARROW_LEFT)) {
+      spelerX -= spelerXSnelheid;
+    };
 
-  if(keyIsDown(39)) {
-    spelerX = spelerX + spelerXSnelheid;
-  };
+    if(keyIsDown(ARROW_UP)) {
+      spelerY -= spelerYSnelheid;
+    };
 
-  if(keyIsDown(40)) {
-    spelerY = spelerY + spelerYSnelheid;
-  };
-  
+    if(keyIsDown(ARROW_RIGHT)) {
+      spelerX += spelerXSnelheid;
+    };
+
+    if(keyIsDown(ARROW_DOWN)) {
+      spelerY += spelerYSnelheid;
+    };
+    
+    // botsing detectie
+    if(spelerX < 65) {
+      spelerX = 65;
+    };
+
+    if(spelerX > 1215) {
+      spelerX = 1215;
+    };
+
+    if(spelerY < 25) {
+      spelerY = 25;
+    };
+
+    if(spelerY > 640) {
+      spelerY = 640;
+    };
 };
 
 /**
@@ -85,12 +109,11 @@ var tekenAlles = function () {
   background(128, 64, 32);
 
   noStroke();
-  fill(128, 64, 8);
-  rect(0, 0, 20, 720);
-  rect(1260, 0, 20, 720);
+  fill("black");
+  rect(0, 0, 40, 720);
+  rect(1240, 0, 40, 720);
 
-  fill(255, 8, 8);
-  rect(0, 680, 40, 40);
+  stroke("black")
 
   // vijand
     // imp
@@ -102,6 +125,16 @@ var tekenAlles = function () {
   // speler
   fill(8, 128, 255);
   ellipse(spelerX, spelerY, 50, 50);
+
+  // vuur
+  noStroke();
+  fill(255, 8, 8);
+  for (var i = 0; i < 16; i++) {
+    var vuurX = i * 80;
+    rect(vuurX, 640, 80, 80);
+  };
+  
+  stroke("black");
 
   // punten en health
 
