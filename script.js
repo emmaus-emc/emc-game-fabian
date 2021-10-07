@@ -17,11 +17,12 @@ var spelStatus = SPELEN;
 var spelerX = 640; // x-positie van speler
 var spelerY = 600; // y-positie van speler
 var spelerXSnelheid = 4; // x-snelheid van speler
+var spelerYSnelheid = 4; // y-snelhied van speler
 
 var impX = 400; // x-positie van vijand Imp
 var impY = 120; // y-positie van vijand Imp
-var impXSnelheid = 1; // x-snelheid van vijand Imp
-var impYSnelheid = 2; // y-snelheid van vijand Imp
+const impXSnelheid = 1; // x-snelheid van vijand Imp
+const impYSnelheid = 2; // y-snelheid van vijand Imp
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -50,9 +51,18 @@ var beweegAlles = function () {
     spelerX = spelerX - spelerXSnelheid;
   };
 
+  if(keyIsDown(38)) {
+    spelerY = spelerY - spelerYSnelheid;
+  };
+
   if(keyIsDown(39)) {
     spelerX = spelerX + spelerXSnelheid;
   };
+
+  if(keyIsDown(40)) {
+    spelerY = spelerY + spelerYSnelheid;
+  };
+  
 };
 
 /**
@@ -73,6 +83,14 @@ var verwerkBotsing = function () {
 var tekenAlles = function () {
   // achtergrond
   background(128, 64, 32);
+
+  noStroke();
+  fill(128, 64, 8);
+  rect(0, 0, 20, 720);
+  rect(1260, 0, 20, 720);
+
+  fill(255, 8, 8);
+  rect(0, 680, 40, 40);
 
   // vijand
     // imp
