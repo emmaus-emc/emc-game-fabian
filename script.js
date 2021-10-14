@@ -25,10 +25,9 @@ var spelerY = 560; // y-positie van speler
 var spelerXSnelheid = 6; // x-snelheid van speler
 var spelerYSnelheid = 6; // y-snelhied van speler
 
-var impX = 400; // x-positie van vijand Imp
-var impY = 0; // y-positie van vijand Imp
-const impXSnelheid = 2; // x-snelheid van vijand Imp
-const impYSnelheid = 3; // y-snelheid van vijand Imp
+var vijandImpX // x-positie van vijand Imp
+var vijandImpY // y-positie van vijand Imp
+const vijandImpYSnelheid = 3; // y-snelheid van vijand Imp
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -39,16 +38,15 @@ const impYSnelheid = 3; // y-snelheid van vijand Imp
  */
 var beweegAlles = function () {
   // vijand
-    // Imp
-    impY = impY + impYSnelheid;
 
-    if(impX < spelerX) {
-      impX = impX + impXSnelheid;
+    // imp
+    vijandImpY = vijandImpY + vijandImpYSnelheid;
+
+    if(vijandImpY > 800) {
+      vijandImpY = random(-360, -80);
+      vijandImpX = random(65, 1215);
     };
 
-    if(impX > spelerX) {
-      impX = impX - impXSnelheid;
-    };
 
   // kogel
 
@@ -118,7 +116,7 @@ var tekenAlles = function () {
   // vijand
     // imp
     fill(255, 8, 8);
-    ellipse(impX, impY, 50, 50);
+    ellipse(vijandImpX, vijandImpY, 50, 50);
 
   // kogel
 
@@ -158,6 +156,11 @@ var checkGameOver = function () {
  * de p5 library, zodra het spel geladen is in de browser
  */
 function setup() {
+  // Teken de vijanden op willekurige plaatsen
+    // Imp
+    vijandImpX = random(65, 1215);
+    vijandImpY = random(-360, -80);
+
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
