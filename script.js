@@ -14,6 +14,9 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
+// plaatjes
+var imgSpelerNormaal = 0;
+
 // keycodes
 const ARROW_LEFT = 37;
 const ARROW_UP = 38;
@@ -25,9 +28,14 @@ var spelerY = 560; // y-positie van speler
 var spelerXSnelheid = 6; // x-snelheid van speler
 var spelerYSnelheid = 6; // y-snelhied van speler
 
-var vijandImpX // x-positie van vijand Imp
-var vijandImpY // y-positie van vijand Imp
+var vijandImpX; // x-positie van vijand Imp
+var vijandImpY; // y-positie van vijand Imp
 const vijandImpYSnelheid = 3; // y-snelheid van vijand Imp
+
+var score = 0; // score
+
+var healthPoints = 4; // aantal health points van de speler
+var spelerGeraakt = false; // geeft "true" of "false" als de speler geraakt is
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -95,6 +103,13 @@ var beweegAlles = function () {
 var verwerkBotsing = function () {
   // botsing speler tegen vijand
 
+    // imp
+    if((vijandImpX - spelerX) < 50  &&  (vijandImpX - spelerX) > -50  &&  (vijandImpY - spelerY) < 50  &&  (vijandImpY - spelerY) > -50  &&  healthPoints > 0) {
+      console.log("botsing speler-vijand");
+      healthPoints--;
+      vijandImpY = vijandImpY + 720;
+    };
+
   // botsing kogel tegen vijand
 
 };
@@ -111,7 +126,7 @@ var tekenAlles = function () {
   rect(0, 0, 40, 720);
   rect(1240, 0, 40, 720);
 
-  stroke("black")
+  stroke("black");
 
   // vijand
     // imp
@@ -123,6 +138,8 @@ var tekenAlles = function () {
   // speler
   fill(8, 128, 255);
   ellipse(spelerX, spelerY, 50, 50);
+
+  image(imgSpelerNormaal, spelerX - 29, spelerY - 33);
 
   // vuur
   noStroke();
@@ -136,6 +153,27 @@ var tekenAlles = function () {
 
   // punten en health
 
+    // punten
+    fill(0, 0, 0);
+    textSize(40);
+    text("Score: " + score, 60, 55);
+
+    score++;
+
+    // health
+    stroke("black");
+
+    fill(255, 8, 8);
+    for (var i = 0; i < healthPoints; i++) {
+      var hpBarX = i * 160 + 320;
+      rect(hpBarX, 580, 160, 40);
+    };
+
+    fill(160, 160, 160);
+    for (var i = 0; i < (4 - healthPoints); i++) {
+      var hpWegBarX = i * -160 + 800;
+      rect(hpWegBarX, 580, 160, 40);
+    };
 };
 
 /**
@@ -149,6 +187,13 @@ var checkGameOver = function () {
 /* ********************************************* */
 /* setup() en draw() functies / hoofdprogramma   */
 /* ********************************************* */
+
+/**
+ * preload
+ */
+function preload() {
+  imgSpelerNormaal = loadImage('spelerNormaal.png');
+};
 
 /**
  * setup
@@ -166,7 +211,7 @@ function setup() {
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
   background('blue');
-}
+};
 
 /**
  * draw
@@ -180,10 +225,10 @@ function draw() {
     tekenAlles();
     if (checkGameOver()) {
       spelStatus = GAMEOVER;
-    }
-  }
+    };
+  };
   if (spelStatus === GAMEOVER) {
     // teken game-over scherm
 
-  }
-}
+  };
+};
