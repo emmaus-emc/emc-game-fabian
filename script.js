@@ -15,7 +15,7 @@ const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
 // plaatjes
-var imgSpelerNormaal = 0;
+var imgSpelerRifle = 0;
 
 // keycodes
 const ARROW_LEFT = 37;
@@ -139,7 +139,7 @@ var tekenAlles = function () {
   fill(8, 128, 255);
   ellipse(spelerX, spelerY, 50, 50);
 
-  image(imgSpelerNormaal, spelerX - 29, spelerY - 33);
+  image(imgSpelerRifle, spelerX - 29, spelerY - 33);
 
   // vuur
   noStroke();
@@ -192,7 +192,7 @@ var checkGameOver = function () {
  * preload
  */
 function preload() {
-  imgSpelerNormaal = loadImage('spelerNormaal.png');
+  imgSpelerRifle = loadImage('spelerRifle.png');
 };
 
 /**
