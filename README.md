@@ -19,7 +19,7 @@ Geef aan met [x] welke onderdelen af zijn
 ### Basisstappen
 Optioneel: extra onderdelen, je kunt die overslaan<br>
 - [x] 1. maak index.html, style.css en script.js met canvas
-- [ ] 2. teken speler
+- [x] 2. teken speler
         - Maak de afmeting van de speler 50x50 pixels
         - Gebruik variabalen spelerX en spelerY als middelpunt van de speler
 - [x] 3. beweeg speler met pijltjetoetsen
@@ -34,7 +34,7 @@ Optioneel: extra onderdelen, je kunt die overslaan<br>
 - [x] 8. console-bericht bij botsing speler-vijand
     Gebruikt console.log om iets op de console te schrijven
 - [x] 9. toon HP, elke botsing is lagere HP
-- [ ] 10. toon punten, elke seconde 1 punt erbij
+- [x] 10. toon punten, elke seconde 1 punt erbij
 - [ ] 11. game over scherm met punten als HP op is
 - [ ] 12. optioneel: intro scherm met speluitleg, enter is start
 - [ ] 13. maak 3 vijanden op een rij

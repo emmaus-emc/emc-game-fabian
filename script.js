@@ -16,6 +16,7 @@ var spelStatus = SPELEN;
 
 // plaatjes
 var imgSpelerRifle = 0;
+var imgVuur = 0;
 
 // keycodes
 const ARROW_LEFT = 37;
@@ -136,17 +137,19 @@ var tekenAlles = function () {
   // kogel
 
   // speler
-  fill(8, 128, 255);
-  ellipse(spelerX, spelerY, 50, 50);
+  
+  // fill(8, 128, 255);
+  // ellipse(spelerX, spelerY, 50, 50);
+  
 
-  image(imgSpelerRifle, spelerX - 29, spelerY - 33);
+  image(imgSpelerRifle, spelerX - 35, spelerY - 40); // afmeting 70 x 70 (hitbox 50 x 50)
 
   // vuur
   noStroke();
   fill(255, 8, 8);
   for (var i = 0; i < 16; i++) {
     var vuurX = i * 80;
-    rect(vuurX, 640, 80, 80);
+    image(imgVuur, vuurX, 640); // afmeting 80 x 80
   };
   
   stroke("black");
@@ -193,6 +196,7 @@ var checkGameOver = function () {
  */
 function preload() {
   imgSpelerRifle = loadImage('spelerRifle.png');
+  imgVuur = loadImage('vuur.png');
 };
 
 /**
