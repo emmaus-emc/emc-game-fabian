@@ -26,12 +26,15 @@ const ARROW_DOWN = 40;
 
 var spelerX = 640; // x-positie van speler
 var spelerY = 560; // y-positie van speler
-var spelerXSnelheid = 6; // x-snelheid van speler
-var spelerYSnelheid = 6; // y-snelhied van speler
+var spelerXSnelheid = 8; // x-snelheid van speler
+var spelerYSnelheid = 8; // y-snelhied van speler
 
-var vijandImpX; // x-positie van vijand Imp
-var vijandImpY; // y-positie van vijand Imp
-const vijandImpYSnelheid = 3; // y-snelheid van vijand Imp
+// vijanden
+
+  // imp
+  var vijandImpX = 0; // x-positie van vijand Imp
+  var vijandImpY = 0; // y-positie van vijand Imp
+  const vijandImpYSnelheid = 4; // y-snelheid van vijand Imp
 
 var score = 0; // score
 
@@ -132,6 +135,7 @@ var tekenAlles = function () {
   // vijand
     // imp
     fill(255, 8, 8);
+
     ellipse(vijandImpX, vijandImpY, 50, 50);
 
   // kogel
@@ -159,6 +163,7 @@ var tekenAlles = function () {
     // punten
     fill(0, 0, 0);
     textSize(40);
+    textAlign(LEFT);
     text("Score: " + score, 60, 55);
 
     score++;
@@ -184,8 +189,36 @@ var tekenAlles = function () {
  * anders return false
  */
 var checkGameOver = function () {
-  return false;
+  if(healthPoints <= 0) {
+    return true;
+  } else {
+    return false;
+  };
 };
+
+/**
+ * zet spelvariabelen in beginstand
+ */
+ var initSpel = function () {
+  
+  spelerX = 640; // x-positie van speler
+  spelerY = 560; // y-positie van speler
+  spelerXSnelheid = 8; // x-snelheid van speler
+  spelerYSnelheid = 8; // y-snelhied van speler
+
+  // Teken de vijanden op willekurige plaatsen
+    // Imp
+    vijandImpX = random(65, 1215);
+    vijandImpY = random(-360, -80);
+
+  score = 0; // score
+
+  healthPoints = 4; // aantal health points van de speler
+  spelerGeraakt = false; // geeft "true" of "false" als de speler geraakt is
+};
+
+
+
 
 /* ********************************************* */
 /* setup() en draw() functies / hoofdprogramma   */
@@ -205,16 +238,14 @@ function preload() {
  * de p5 library, zodra het spel geladen is in de browser
  */
 function setup() {
-  // Teken de vijanden op willekurige plaatsen
-    // Imp
-    vijandImpX = random(65, 1215);
-    vijandImpY = random(-360, -80);
-
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
   background('blue');
+
+  // Zet spelvariabelen naar beginstand
+  initSpel();
 };
 
 /**
@@ -227,12 +258,40 @@ function draw() {
     beweegAlles();
     verwerkBotsing();
     tekenAlles();
+
     if (checkGameOver()) {
       spelStatus = GAMEOVER;
     };
   };
+
   if (spelStatus === GAMEOVER) {
     // teken game-over scherm
 
+      background('red');
+
+      if(mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640) {
+        fill('yellow');
+      } else {
+        fill('orange');
+      };
+      rect(380, 520, 520, 120);
+
+      textAlign(CENTER);
+      fill(0, 0, 0);
+      textSize(120);
+      text("GAME OVER", 640, 360);
+
+      textSize(80);
+      text("Score: " + score, 640, 450);
+
+      text("Restart?", 640, 610);
+
+
+    // restart wanneer speler op "Restart?" drukt
+
+      if(mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed) {
+        initSpel();
+        spelStatus = SPELEN;
+      };
   };
 };
