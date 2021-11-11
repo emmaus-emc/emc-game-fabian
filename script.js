@@ -17,7 +17,6 @@ var spelStatus = SPELEN;
 // plaatjes
 var imgSpelerRifle = 0;
 var imgVuur = 0;
-var imgGrond = 0;
 
 // keycodes
 const ARROW_LEFT = 37;
@@ -231,7 +230,6 @@ var initSpel = function () {
 function preload() {
   imgSpelerRifle = loadImage('spelerRifle.png');
   imgVuur = loadImage('vuur.png');
-  imgGrond = loadImage('');
 };
 
 /**
