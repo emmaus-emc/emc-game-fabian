@@ -20,6 +20,7 @@ var imgSpelerRifle = 0;
 var imgVuur = 0;
 
 // keycodes
+const ENTER = 13;
 const SPACE = 32;
 const ARROW_LEFT = 37;
 const ARROW_UP = 38;
@@ -33,8 +34,8 @@ var spelerXSnelheid = 8; // x-snelheid van speler
 var spelerYSnelheid = 8; // y-snelhied van speler
 
 // kogel
-var kogelX = 0; // x-positie van kogel
-var kogelY = 0; // y-positie van kogel
+var kogelX = -64; // x-positie van kogel
+var kogelY = -64; // y-positie van kogel
 const kogelYSnelheid = 24; // y-snelheid van kogel
 
 // vijanden
@@ -44,7 +45,7 @@ const kogelYSnelheid = 24; // y-snelheid van kogel
   const vijandImpYSnelheid = 4; // y-snelheid van vijand Imp
 
 // misc
-var aantalVijanden = 3; // aantal vijanden
+var aantalVijanden = 8; // aantal vijanden
 var score = 0; // score
 
 // hp
@@ -65,7 +66,7 @@ var beweegAlles = function () {
     vijandImpY = vijandImpY + vijandImpYSnelheid;
 
     if (vijandImpY > 800) {
-      vijandImpX = 200 /*random(65, 1215)*/;
+      vijandImpX = random(65, 1215);
       vijandImpY = random(-360, -80);
     };
 
@@ -123,13 +124,28 @@ var beweegAlles = function () {
 var verwerkBotsing = function () {
   // botsing speler tegen vijand
     // imp
-    if ((vijandImpX - spelerX) < 50  &&  (vijandImpX - spelerX) > -50  &&  (vijandImpY - spelerY) < 50  &&  (vijandImpY - spelerY) > -50  &&  healthPoints > 0) {
-      console.log("botsing speler-vijand");
-      healthPoints--;
-      vijandImpY = vijandImpY + 720;
+    for (var i = 0; i < aantalVijanden; i++) {
+      if ((vijandImpX + 150 * i - spelerX) < 50  &&  (vijandImpX + 150 * i - spelerX) > -50  &&  (vijandImpY - spelerY) < 50  &&  (vijandImpY - spelerY) > -50  &&  healthPoints > 0) {
+        console.log("botsing speler-vijand");
+        healthPoints--;
+        vijandImpY = vijandImpY + 800;
+      };
     };
 
   // botsing kogel tegen vijand
+    // imp
+    if ((vijandImpX - kogelX) < 29  &&  (vijandImpX - kogelX) > -29  &&  (vijandImpY - kogelY) < 50  &&  (vijandImpY - kogelY) > -50) {
+      console.log("botsing kogel-vijand");
+      kogelX = -64;
+      kogelY = -64;
+      vijandImpY = vijandImpY + 800;
+    };
+  
+  // botsing kogel tegen schermrand
+    if (kogelY < 4) {
+      kogelX = -64;
+      kogelY = -64;
+    };
 
 };
 
@@ -152,16 +168,18 @@ var tekenAlles = function () {
     fill(255, 8, 8);
 
     for (var i = 0; i < aantalVijanden; i++) {
-      ellipse(vijandImpX + 100 * i, vijandImpY, 50, 50);
+      ellipse(vijandImpX + 150 * i, vijandImpY, 50, 50);
     };
 
   // kogel
   fill(255, 255, 8);
-  ellipse(kogelX, kogelY, 5, 5);
+  ellipse(kogelX, kogelY, 8, 8);
 
-  // speler
-  // fill(8, 128, 255);
-  // ellipse(spelerX, spelerY, 50, 50);
+  /*
+    speler
+    fill(8, 128, 255);
+    ellipse(spelerX, spelerY, 50, 50);
+  */
   image(imgSpelerRifle, spelerX - 35, spelerY - 40); // afmeting 70 x 70 (hitbox 50 x 50)
 
   // vuur
@@ -230,7 +248,7 @@ var tekenGameOver = function () {
  */
 var verwerkGameOver = function () {
   // restart wanneer speler op "RESTART?" drukt
-  if (mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed) {
+  if ((mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed)  ||  keyIsDown(SPACE)  ||  keyIsDown(ENTER)) {
     initSpel();
     spelStatus = SPELEN;
   };
@@ -272,7 +290,7 @@ var tekenUitleg = function () {
  */
 var verwerkUitleg = function() {
   // start wanneer speler op "START!" drukt
-  if (mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed) {
+  if (mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed  ||  keyIsDown(SPACE)  ||  keyIsDown(ENTER)) {
     initSpel();
     spelStatus = SPELEN;
   };
@@ -302,7 +320,7 @@ var initSpel = function () {
 
   // Teken de vijanden op willekurige plaatsen
     // Imp
-    vijandImpX = 200 /*random(65, 1215)*/;
+    vijandImpX = random(65, 1215);
     vijandImpY = 800;
 
   score = 0; // score

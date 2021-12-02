@@ -37,19 +37,19 @@ Optioneel: extra onderdelen, je kunt die overslaan<br>
 - [x] 10. toon punten, elke seconde 1 punt erbij
 - [x] 11. game over scherm met punten als HP op is
 - [x] 12. optioneel: intro scherm met speluitleg, enter is start
-- [ ] 13. maak 3 vijanden op een rij
+- [x] 13. maak 3 vijanden op een rij
         - Kopieer de code die de vijanden beweegt en tekent
         - Gebruik variabelen vijandX1, vijandX2 enzovoort
         - Zet de vijanden op dezelfde hoogte op de y-as
         - Gebruik een afstand van 150 pixels op de x-as tussen twee vijanden
-- [ ] 14. maak 3 vijanden op een rij met een loop
+- [x] 14. maak 3 vijanden op een rij met een loop
     Verander de code zodat er een loop gebruikt wordt
-- [ ] 15. maak 8 vijanden op een rij met een loop
+- [x] 15. maak 8 vijanden op een rij met een loop
         - Verander het aantal keer dat de loop wordt herhaald
 - [ ] 16. optioneel: maak 8 vijanden op willekeurige plekken met een loop en array
-- [ ] 17. tekenKogel ergens
-- [ ] 18. zet kogel bij speler als spatie wordt ingedrukt
-- [ ] 19. beweegKogel omhoog
+- [x] 17. tekenKogel ergens
+- [x] 18. zet kogel bij speler als spatie wordt ingedrukt
+- [x] 19. beweegKogel omhoog
 - [ ] 20. console-bericht bij botsing kogel-vijand
 - [ ] 21. verwijder kogel en vijand als geraakt
 - [ ] 22. optioneel: maak 10 kogels met loop en array
