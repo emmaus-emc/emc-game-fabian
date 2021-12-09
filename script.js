@@ -34,18 +34,19 @@ var spelerXSnelheid = 8; // x-snelheid van speler
 var spelerYSnelheid = 8; // y-snelhied van speler
 
 // kogel
-var kogelX = -64; // x-positie van kogel
-var kogelY = -64; // y-positie van kogel
+var kogelX = []; // x-positie van kogel
+var kogelY = []; // y-positie van kogel
 const kogelYSnelheid = 24; // y-snelheid van kogel
 
 // vijanden
+
   // imp
-  var vijandImpX = 0; // x-positie van vijand Imp
-  var vijandImpY = 0; // y-positie van vijand Imp
+  var aantalImpVijanden = 8; // aantal imp vijanden
+  var vijandImpX = []; // x-positie van vijand Imp
+  var vijandImpY = []; // y-positie van vijand Imp
   const vijandImpYSnelheid = 4; // y-snelheid van vijand Imp
 
 // misc
-var aantalVijanden = 8; // aantal vijanden
 var score = 0; // score
 
 // hp
@@ -63,20 +64,25 @@ var beweegAlles = function () {
   // vijand
 
     // imp
-    vijandImpY = vijandImpY + vijandImpYSnelheid;
+    for (var i = 0; i < aantalImpVijanden; i++) {
+      vijandImpY[i] = vijandImpY[i] + vijandImpYSnelheid;
+    
 
-    if (vijandImpY > 800) {
-      vijandImpX = random(65, 1215);
-      vijandImpY = random(-360, -80);
+      if (vijandImpY[i] > 800) {
+        vijandImpX[i] = random(65, 1215);
+        vijandImpY[i] = random(-360, -80);
+      };
     };
 
 
   // kogel
-  kogelY -= kogelYSnelheid;
+  for (i = 0; i < kogelY.length; i++) {
+    kogelY[i] -= kogelYSnelheid;
+  };
 
   if (keyIsDown(SPACE)) {
-    kogelX = spelerX;
-    kogelY = spelerY;
+    kogelX.push(spelerX);
+    kogelY.push(spelerY);
   };
 
   // speler
@@ -124,27 +130,33 @@ var beweegAlles = function () {
 var verwerkBotsing = function () {
   // botsing speler tegen vijand
     // imp
-    for (var i = 0; i < aantalVijanden; i++) {
-      if ((vijandImpX + 150 * i - spelerX) < 50  &&  (vijandImpX + 150 * i - spelerX) > -50  &&  (vijandImpY - spelerY) < 50  &&  (vijandImpY - spelerY) > -50  &&  healthPoints > 0) {
+    for (var i = 0; i < aantalImpVijanden; i++) {
+      if ((vijandImpX[i] - spelerX) < 50  &&  (vijandImpX[i] - spelerX) > -50  &&  (vijandImpY[i] - spelerY) < 50  &&  (vijandImpY[i] - spelerY) > -50  &&  healthPoints > 0) {
         console.log("botsing speler-vijand");
         healthPoints--;
-        vijandImpY = vijandImpY + 800;
+        vijandImpY[i] = vijandImpY[i] + 800;
       };
     };
 
   // botsing kogel tegen vijand
     // imp
-    if ((vijandImpX - kogelX) < 29  &&  (vijandImpX - kogelX) > -29  &&  (vijandImpY - kogelY) < 50  &&  (vijandImpY - kogelY) > -50) {
-      console.log("botsing kogel-vijand");
-      kogelX = -64;
-      kogelY = -64;
-      vijandImpY = vijandImpY + 800;
+    for (i = 0; i < aantalImpVijanden; i++) {
+      if ((vijandImpX[i] - kogelX) < 29  &&  (vijandImpX[i] - kogelX) > -29  &&  (vijandImpY[i] - kogelY) < 50  &&  (vijandImpY[i] - kogelY) > -50) {
+        console.log("botsing kogel-vijand");
+        for (i = 0; i < kogelY.length; i++) {
+          kogelX[i] = -64;
+          kogelY[i] = -64;
+        };
+        vijandImpY[i] = vijandImpY[i] + 800;
+      };
     };
   
   // botsing kogel tegen schermrand
-    if (kogelY < 4) {
-      kogelX = -64;
-      kogelY = -64;
+    for (i = 0; i < kogelY.length; i++) {
+      if (kogelY[i] < 4) {
+        kogelX[i] = -64;
+        kogelY[i] = -64;
+      };
     };
 
 };
@@ -167,18 +179,21 @@ var tekenAlles = function () {
     // imp
     fill(255, 8, 8);
 
-    for (var i = 0; i < aantalVijanden; i++) {
-      ellipse(vijandImpX + 150 * i, vijandImpY, 50, 50);
+    for (var i = 0; i < aantalImpVijanden; i++) {
+      ellipse(vijandImpX[i], vijandImpY[i], 50, 50);
     };
 
   // kogel
   fill(255, 255, 8);
-  ellipse(kogelX, kogelY, 8, 8);
+  for (i = 0; i < kogelY.length; i++) {
+    ellipse(kogelX, kogelY[i], 8, 8);
+  };
 
+  
+  // speler
   /*
-    speler
-    fill(8, 128, 255);
-    ellipse(spelerX, spelerY, 50, 50);
+  fill(8, 128, 255);
+  ellipse(spelerX, spelerY, 50, 50);
   */
   image(imgSpelerRifle, spelerX - 35, spelerY - 40); // afmeting 70 x 70 (hitbox 50 x 50)
 
@@ -320,8 +335,8 @@ var initSpel = function () {
 
   // Teken de vijanden op willekurige plaatsen
     // Imp
-    vijandImpX = random(65, 1215);
-    vijandImpY = 800;
+    vijandImpX = [random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215)];
+    vijandImpY = [800, 800, 800, 800, 800, 800, 800, 800];
 
   score = 0; // score
 
