@@ -6,6 +6,13 @@
    voeg er je eigen code aan toe.
  */
 
+/**
+ * Vragen
+ * 
+ * - Vijand Start variabelen
+ * - Difficulty
+ */
+
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
@@ -28,12 +35,16 @@ const ARROW_RIGHT = 39;
 const ARROW_DOWN = 40;
 
 // speler
-var spelerX = 640; // x-positie van speler
-var spelerY = 560; // y-positie van speler
+var spelerX = 0; // x-positie van speler
+var spelerY = 0; // y-positie van speler
+const spelerXStart = 640; // x-startpositie van speler
+const spelerYStart = 560; // y-startpositie van speler
 var spelerXSnelheid = 8; // x-snelheid van speler
 var spelerYSnelheid = 8; // y-snelhied van speler
 
 // kogel
+var kogelTimerStart = 12; // aantal frames tussen kogels
+var kogelTimer = kogelTimerStart; // timer van kogel
 var kogelX = []; // x-positie van kogel
 var kogelY = []; // y-positie van kogel
 const kogelYSnelheid = 24; // y-snelheid van kogel
@@ -41,13 +52,21 @@ const kogelYSnelheid = 24; // y-snelheid van kogel
 // vijanden
 
   // imp
-  var aantalImpVijanden = 8; // aantal imp vijanden
+  var aantalImpVijanden = 8; // aantal Imp vijanden
   var vijandImpX = []; // x-positie van vijand Imp
   var vijandImpY = []; // y-positie van vijand Imp
   const vijandImpYSnelheid = 4; // y-snelheid van vijand Imp
 
+  // Hellhound
+  var aantalHhVijanden = 3; // aantal Hellhound vijanden
+  var vijandHhX = []; // x-positie van vijand Hellhound
+  var vijandHhY = []; // y-positie van vijand Hellhound
+  const vijandHhXSnelheid = 5; // x-snelheid van vijand Hellhound
+  const vijandHhYSnelheid = 3; // y-snelheid van vijand Hellhound
+
 // misc
 var score = 0; // score
+const scoreDiff = 10; // aantal score tot nieuwe moeilijkheidsgraad
 
 // hp
 var healthPoints = 4; // aantal health points van de speler
@@ -67,10 +86,20 @@ var beweegAlles = function () {
     for (var i = 0; i < aantalImpVijanden; i++) {
       vijandImpY[i] = vijandImpY[i] + vijandImpYSnelheid;
     
-
       if (vijandImpY[i] > 800) {
         vijandImpX[i] = random(65, 1215);
         vijandImpY[i] = random(-360, -80);
+      };
+    };
+
+    // hellhound
+    for (var i = 0; i < aantalHhVijanden; i++) {
+      vijandHhX[i] = vijandHhX[i] + vijandHhXSnelheid;
+      vijandHhY[i] = vijandHhY[i] + vijandHhYSnelheid;
+
+      if (vijandHhY[i] > 800) {
+        vijandHhX[i] = random(65, 1215);
+        vijandHhY[i] = random(-360, -80);
       };
     };
 
@@ -80,9 +109,11 @@ var beweegAlles = function () {
     kogelY[i] -= kogelYSnelheid;
   };
 
-  if (keyIsDown(SPACE)) {
+  kogelTimer--;
+  if (keyIsDown(SPACE)  &&  kogelTimer < 0) {
     kogelX.push(spelerX);
-    kogelY.push(spelerY);
+    kogelY.push(spelerY - 35);
+    kogelTimer = kogelTimerStart;
   };
 
   // speler
@@ -132,22 +163,47 @@ var verwerkBotsing = function () {
     // imp
     for (var i = 0; i < aantalImpVijanden; i++) {
       if ((vijandImpX[i] - spelerX) < 50  &&  (vijandImpX[i] - spelerX) > -50  &&  (vijandImpY[i] - spelerY) < 50  &&  (vijandImpY[i] - spelerY) > -50  &&  healthPoints > 0) {
-        console.log("botsing speler-vijand");
+        console.log("botsing speler-Imp vijand");
         healthPoints--;
         vijandImpY[i] = vijandImpY[i] + 800;
       };
     };
 
+    // hellhound
+    for (var i = 0; i < aantalHhVijanden; i++) {
+      if ((vijandHhX[i] - spelerX) < 50  &&  (vijandHhX[i] - spelerX) > -50  &&  (vijandHhY[i] - spelerY) < 50  &&  (vijandHhY[i] - spelerY) > -50  &&  healthPoints > 0)
+        console.log("botsing speler-Hellhound vijand");
+        healthPoints--;
+        vijandHhY[i] = vijandHhY[i] + 800;
+      };
+    };
+
   // botsing kogel tegen vijand
     // imp
-    for (i = 0; i < aantalImpVijanden; i++) {
-      if ((vijandImpX[i] - kogelX) < 29  &&  (vijandImpX[i] - kogelX) > -29  &&  (vijandImpY[i] - kogelY) < 50  &&  (vijandImpY[i] - kogelY) > -50) {
-        console.log("botsing kogel-vijand");
-        for (i = 0; i < kogelY.length; i++) {
-          kogelX[i] = -64;
-          kogelY[i] = -64;
+    for (var iVijand = 0; iVijand < aantalImpVijanden; iVijand++) {
+      for (var iKogel = 0; iKogel < kogelY.length; iKogel++) {
+        if ((vijandImpX[iVijand] - kogelX[iKogel]) < 29  &&  (vijandImpX[iVijand] - kogelX[iKogel]) > -29  &&  (vijandImpY[iVijand] - kogelY[iKogel]) < 50  &&  (vijandImpY[iVijand] - kogelY[iKogel]) > -50) {
+          console.log("botsing kogel-Imp vijand");
+          for (i = 0; i < kogelY.length; i++) {
+            kogelX[i] = -64;
+            kogelY[i] = -64;
+          };
+          vijandImpY[iVijand] = vijandImpY[iVijand] + 800;
         };
-        vijandImpY[i] = vijandImpY[i] + 800;
+      };
+    };
+
+    // hellhound
+    for (var iVijand = 0; iVijand < aantalImpVijanden; iVijand++) {
+      for (var iKogel = 0; iKogel < kogelY.length; iKogel++) {
+        if ((vijandHhX[iVijand] - kogelX[iKogel]) < 29  &&  (vijandHhX[iVijand] - kogelX[iKogel]) > -29  &&  (vijandHhY[iVijand] - kogelY[iKogel]) < 50  &&  (vijandHhY[iVijand] - kogelY[iKogel]) > -50) {
+          console.log("botsing kogel-Hellhound vijand");
+          for (i = 0; i < kogelY.length; i++) {
+            kogelX[i] = -64;
+            kogelY[i] = -64;
+          };
+          vijandHhY[iVijand] = vijandHhY[iVijand] + 800;
+        };
       };
     };
   
@@ -183,10 +239,17 @@ var tekenAlles = function () {
       ellipse(vijandImpX[i], vijandImpY[i], 50, 50);
     };
 
+    // hellhound
+    fill(255, 128, 8);
+
+    for (var i = 0; i < aantalHellVijanden; i++) {
+      ellipse(vijandImpX[i], vijandImpY[i], 50, 50);
+    };
+
   // kogel
   fill(255, 255, 8);
   for (i = 0; i < kogelY.length; i++) {
-    ellipse(kogelX, kogelY[i], 8, 8);
+    ellipse(kogelX[i], kogelY[i], 8, 8);
   };
 
   
@@ -233,6 +296,25 @@ var tekenAlles = function () {
 };
 
 /**
+ * Verwerkt moeilijkheid
+ */
+var verwerkMoeilijkheid = function () {
+
+  var vijandImpErbij = function () {
+    aantalImpVijanden++;
+    vijandImpX.push(random(65, 1215));
+    vijandImpY.push(800);
+  };
+
+  for (var i = 0; i < 99999; i += scoreDiff) {
+    if (score === i) {
+      console.log('Imp vijand erbij', vijandImpX.length);
+      vijandImpErbij;
+    };
+  };
+};
+
+/**
  * Tekent game-overscherm
  */
 var tekenGameOver = function () {
@@ -263,7 +345,7 @@ var tekenGameOver = function () {
  */
 var verwerkGameOver = function () {
   // restart wanneer speler op "RESTART?" drukt
-  if ((mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed)  ||  keyIsDown(SPACE)  ||  keyIsDown(ENTER)) {
+  if ((mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed)  ||  keyIsDown(ENTER)) {
     initSpel();
     spelStatus = SPELEN;
   };
@@ -305,7 +387,7 @@ var tekenUitleg = function () {
  */
 var verwerkUitleg = function() {
   // start wanneer speler op "START!" drukt
-  if (mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed  ||  keyIsDown(SPACE)  ||  keyIsDown(ENTER)) {
+  if (mouseX > 380  &&  mouseX < 900  &&  mouseY > 520  &&  mouseY < 640  &&  mouseIsPressed  ||  keyIsDown(ENTER)) {
     initSpel();
     spelStatus = SPELEN;
   };
@@ -328,15 +410,15 @@ var checkGameOver = function () {
  */
 var initSpel = function () {
   
-  spelerX = 640; // x-positie van speler
-  spelerY = 560; // y-positie van speler
-  spelerXSnelheid = 8; // x-snelheid van speler
-  spelerYSnelheid = 8; // y-snelhied van speler
+  spelerX = spelerXStart; // x-positie van speler
+  spelerY = spelerYStart; // y-positie van speler
 
   // Teken de vijanden op willekurige plaatsen
     // Imp
-    vijandImpX = [random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215), random(65, 1215)];
-    vijandImpY = [800, 800, 800, 800, 800, 800, 800, 800];
+    for (var i = 0; i < aantalImpVijanden; i++) {
+      vijandImpX.push(random(65, 1215));
+      vijandImpY.push(800);
+    };
 
   score = 0; // score
 
@@ -386,6 +468,7 @@ function draw() {
     beweegAlles();
     verwerkBotsing();
     tekenAlles();
+    verwerkMoeilijkheid();
 
     if (checkGameOver()) {
       spelStatus = GAMEOVER;

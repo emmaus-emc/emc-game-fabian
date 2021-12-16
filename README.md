@@ -52,8 +52,8 @@ Optioneel: extra onderdelen, je kunt die overslaan<br>
 - [x] 19. beweegKogel omhoog
 - [x] 20. console-bericht bij botsing kogel-vijand
 - [x] 21. verwijder kogel en vijand als geraakt
-- [ ] 22. optioneel: maak 10 kogels met loop en array
-- [ ] 23. optioneel: schiet maar 1 kogel telkens als spatie wordt ingedrukt
+- [x] 22. optioneel: maak 10 kogels met loop en array
+- [x] 23. optioneel: schiet maar 1 kogel telkens als spatie wordt ingedrukt
 
 ### Uitbreidingen
 Kies de uitbreidingen die je leuk vindt en maak je game nog mooier
