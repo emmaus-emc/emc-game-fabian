@@ -61,8 +61,8 @@ Kies de uitbreidingen die je leuk vindt en maak je game nog mooier
 - [ ] Animeer speler
 - [ ] Laat badges vallen die extra's aan speler geven
 - [ ] Maak spel steeds moeilijker door toenemend aantal vijanden met tekenVijand
-- [ ] Maak andere vijanden bij toenemen tekenVijand
-- [ ] Laat vijanden bewegen in patronen
+- [x] Maak andere vijanden bij toenemen tekenVijand
+- [x] Laat vijanden bewegen in patronen
 - [ ] Maak bediening met touch of bewegen van telefoon mogelijk (zorg dat toetsenbordbediening ook blijft werken)
 - [ ] ...
 

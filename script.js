@@ -6,12 +6,7 @@
    voeg er je eigen code aan toe.
  */
 
-/**
- * Vragen
- * 
- * - Vijand Start variabelen
- * - Difficulty
- */
+
 
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
@@ -52,17 +47,17 @@ const kogelYSnelheid = 24; // y-snelheid van kogel
 // vijanden
 
   // imp
-  var aantalImpVijanden = 8; // aantal Imp vijanden
+  var aantalImpVijanden = 16; // aantal Imp vijanden
   var vijandImpX = []; // x-positie van vijand Imp
   var vijandImpY = []; // y-positie van vijand Imp
   const vijandImpYSnelheid = 4; // y-snelheid van vijand Imp
 
   // Hellhound
-  var aantalHhVijanden = 3; // aantal Hellhound vijanden
+  var aantalHhVijanden = 4; // aantal Hellhound vijanden
   var vijandHhX = []; // x-positie van vijand Hellhound
   var vijandHhY = []; // y-positie van vijand Hellhound
-  const vijandHhXSnelheid = 5; // x-snelheid van vijand Hellhound
-  const vijandHhYSnelheid = 3; // y-snelheid van vijand Hellhound
+  const vijandHhXSnelheid = 4; // x-snelheid van vijand Hellhound
+  const vijandHhYSnelheid = 2; // y-snelheid van vijand Hellhound
 
 // misc
 var score = 0; // score
@@ -94,7 +89,13 @@ var beweegAlles = function () {
 
     // hellhound
     for (var i = 0; i < aantalHhVijanden; i++) {
-      vijandHhX[i] = vijandHhX[i] + vijandHhXSnelheid;
+      if (vijandHhX[i] > spelerX) {
+        vijandHhX[i] += -vijandHhXSnelheid;
+      };
+      if (vijandHhX[i] < spelerX) {
+        vijandHhX[i] += vijandHhXSnelheid;
+      };
+
       vijandHhY[i] = vijandHhY[i] + vijandHhYSnelheid;
 
       if (vijandHhY[i] > 800) {
@@ -171,7 +172,7 @@ var verwerkBotsing = function () {
 
     // hellhound
     for (var i = 0; i < aantalHhVijanden; i++) {
-      if ((vijandHhX[i] - spelerX) < 50  &&  (vijandHhX[i] - spelerX) > -50  &&  (vijandHhY[i] - spelerY) < 50  &&  (vijandHhY[i] - spelerY) > -50  &&  healthPoints > 0)
+      if ((vijandHhX[i] - spelerX) < 50  &&  (vijandHhX[i] - spelerX) > -50  &&  (vijandHhY[i] - spelerY) < 50  &&  (vijandHhY[i] - spelerY) > -50  &&  healthPoints > 0) {
         console.log("botsing speler-Hellhound vijand");
         healthPoints--;
         vijandHhY[i] = vijandHhY[i] + 800;
@@ -214,7 +215,6 @@ var verwerkBotsing = function () {
         kogelY[i] = -64;
       };
     };
-
 };
 
 /**
@@ -418,6 +418,12 @@ var initSpel = function () {
     for (var i = 0; i < aantalImpVijanden; i++) {
       vijandImpX.push(random(65, 1215));
       vijandImpY.push(800);
+    };
+
+    // Hellhound
+    for (var i = 0; i < aantalHhVijanden; i++) {
+      vijandHhX.push(random(65, 1215));
+      vijandHhY.push(800);
     };
 
   score = 0; // score
