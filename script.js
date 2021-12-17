@@ -242,8 +242,8 @@ var tekenAlles = function () {
     // hellhound
     fill(255, 128, 8);
 
-    for (var i = 0; i < aantalHellVijanden; i++) {
-      ellipse(vijandImpX[i], vijandImpY[i], 50, 50);
+    for (var i = 0; i < aantalHhVijanden; i++) {
+      ellipse(vijandHhX[i], vijandHhY[i], 50, 50);
     };
 
   // kogel
